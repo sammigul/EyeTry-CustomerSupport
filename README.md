@@ -1,6 +1,8 @@
 # React + Vite + Tailwind Template
 
-Start your project by running the following command:
+```
+npm install
+```
 
 ```
 npm run dev
