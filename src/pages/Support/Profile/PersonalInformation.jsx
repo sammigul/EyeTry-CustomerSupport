@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
-import profilePic from '../../../assets/images/CustomerSupport/profilePic.png'
+import profilePic from '../../../assets/images/CustomerSupport/profilepic.png'
 
 
 export default function MyDetailsScreen() {
@@ -75,8 +75,8 @@ export default function MyDetailsScreen() {
                             </p>
                         }
                         <div className="md:ml-auto md:text-right text-center">
-                            <Link ><button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete Account</button></Link>
-                            <Link ><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Change Password</button></Link>
+                            <Link ><button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">Delete Account</button></Link>
+                            <Link ><button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 ">Change Password</button></Link>
                         </div>
                     </div>
 
@@ -111,9 +111,9 @@ export default function MyDetailsScreen() {
                             sm:text-sm transition duration-150 ease-in-out" placeholder="info@yourmai.com" type="email" />
                     </div>
 
-                    <div className=" bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5  mx-auto mb-10">
+                    <div className=" bg-white border border-gray-200 rounded-lg shadow  mt-5  mx-auto mb-10">
                         <div className="flex flex-row mt-5">
-                            <h4 class=" ml-5  text-lg font-bold tracking-tight text-gray-900 dark:text-white font-sans">Your Photo</h4>
+                            <h4 class=" ml-5  text-lg font-bold tracking-tight text-gray-900  font-sans">Your Photo</h4>
                         </div>
                         <hr class="border-3 border-gray-300 my-4" />
                         <div className="p-5">
@@ -129,8 +129,8 @@ export default function MyDetailsScreen() {
 
                     <div className="w-full flex items-center justify-center">
                         <button onClick={handlePersonalInfo} type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 
+                        ">Save</button>
                     </div>
                 </div>
             </div>
