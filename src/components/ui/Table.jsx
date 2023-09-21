@@ -20,6 +20,7 @@ import { TextField } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import { Link } from 'react-router-dom';
 
 
 function TablePaginationActions(props) {
@@ -195,8 +196,10 @@ export default function CustomPaginationActionsTable() {
                             : filteredRows
                         ).map((row) => (
                             <TableRow key={row.name}>
-                                <TableCell component="th" scope="row">
-                                    {row.name}
+                                <TableCell component="th" scope="row" style={{ width: 160 }} >
+                                    <Link to='/ticket_details'>
+                                        <span className='cursor-pointer'>   {row.name}</span>
+                                    </Link>
                                 </TableCell>
                                 <TableCell style={{ width: 160 }}>{row.dateIssued}</TableCell>
                                 <TableCell style={{ width: 160 }}>{row.ticketType}</TableCell>

@@ -20,9 +20,8 @@ const router = createBrowserRouter(
     <Route path="/" element={<DashboardLayout />}>
       <Route index element={<CustomerSupportDashboard />} />
       <Route path="ticket_details" element={<SupportTicketDetails />} />
-      <Route path="personal_information" element={<PersonalInformation />} >
-        <Route path="upload_image" element={<UploadUserImage />} />
-      </Route>
+      <Route path="edit_personal_info" element={<PersonalInformation />} />
+      <Route path="upload_image" element={<UploadUserImage />} />
       <Route path="view_personal_info" element={<ViewPersonalInfo />} />
     </Route>
   )

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { styled, } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -117,6 +117,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Navbar() {
 
+  const navigate = useNavigate();
   /*
   
   const [profilePic, setProfilePic] = React.useState('')
@@ -165,7 +166,10 @@ export default function Navbar() {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (page) => {
-    alert(page)
+    if (page == "Settings") {
+      navigate("/view_personal_info")
+    }
+    else if (page == "Support Tickets") { }
     setAnchorElNav(null);
 
   };

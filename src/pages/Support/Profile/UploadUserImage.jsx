@@ -21,9 +21,9 @@ export default function UploadUserImageScreen() {
 
                     <p className="text-xl font-sans font-semibold mt-5">Add an Image</p>
 
-                    <div className="bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mt-5 mx-auto ">
+                    <div className="bg-white border border-gray-200 rounded-lg shadow  mt-5 mx-auto ">
                         <div class="flex flex-col items-center justify-between w-full p-5 pt-7 sm:flex-row sm:items-center">
-                            <h2 class="mr-auto text-base font-sans tracking-tight text-gray-900 dark:text-white text-justify sm:w-auto sm:mr-5">
+                            <h2 class="mr-auto text-base font-sans tracking-tight text-gray-900  text-justify sm:w-auto sm:mr-5">
                                 Please make sure your face is straight and level
                                 and proper <p>lighting is available for an effective image capture</p>
                             </h2>
@@ -58,8 +58,8 @@ export default function UploadUserImageScreen() {
                     }
                     <div className="w-full flex items-center justify-center">
                         <button type="button" className="w-40 text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4
-                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 dark:bg-gray-800 dark:hover:bg-gray-700
-                        dark:focus:ring-gray-700 dark:border-gray-700">Save</button>
+                        focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-10 
+                        ">Save</button>
                     </div>
 
                 </div>

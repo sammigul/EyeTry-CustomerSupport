@@ -18,7 +18,7 @@ const ViewPersonalInfo = () => {
                     </div>
                     <div class="flex items-center justify-between w-full">
                         <h2 class="mr-auto text-xl font-bold tracking-tight text-gray-900 dark:text-white">Personal Information</h2>
-                        <Link ><button class="py-1 px-4 rounded inline-flex items-center ml-auto
+                        <Link to='/edit_personal_info'><button class="py-1 px-4 rounded inline-flex items-center ml-auto
          bg-transparent hover:bg-blue-500 text-blue-700 font-semibold 
          hover:text-white border border-blue-500 hover:border-transparent justify-end mr-5">
                             <BiEdit size={20} class="mr-2" />
