@@ -166,10 +166,24 @@ export default function Navbar() {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (page) => {
+    console.log(page)
     if (page == "Settings") {
       navigate("/view_personal_info")
     }
-    else if (page == "Support Tickets") { }
+    else if (page == "Support Tickets") {
+      navigate("/")
+    }
+    setAnchorElNav(null);
+
+  };
+  const handeDropDownMenu = (page) => {
+    console.log(page)
+    if (page == "Settings") {
+      navigate("/view_personal_info")
+    }
+    else if (page == "Support Tickets") {
+      navigate("/")
+    }
     setAnchorElNav(null);
 
   };
@@ -188,8 +202,9 @@ export default function Navbar() {
       // logout();
       // navigate("/signin")
     }
-    setAnchorElUser(null);
+
   };
+
 
 
 
@@ -263,17 +278,15 @@ export default function Navbar() {
                   </IconButton>
                   <p>Messages</p>
                 </MenuItem>,
-                <MenuItem>
+                <MenuItem key={page} onClick={() => handeDropDownMenu(page)}
+                >
                   <IconButton
                     size="large"
                     aria-label="show 17 new notifications"
                     color="inherit"
                   >
-                    <Badge badgeContent={17} color="error">
-                      <NotificationsIcon />
-                    </Badge>
                   </IconButton>
-                  <p>Notifications</p>
+                  <p>{page}</p>
                 </MenuItem>
 
               ))}
