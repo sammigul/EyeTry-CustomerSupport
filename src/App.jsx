@@ -1,7 +1,38 @@
+import {
+  createBrowserRouter,
+  createRoutesFromElements,
+  Route,
+  RouterProvider,
+} from "react-router-dom";
+import { Fragment } from "react";
+
+// importing pages
+import DashboardLayout from "./layout/CustomerSupport/Navbar"
+import CustomerSupportDashboard from "./pages/Support/Dashboard"
+import SupportTicketDetails from "./pages/Support/SupportTickets/SupportTicketDetails"
+import PersonalInformation from "./pages/Support/Profile/PersonalInformation"
+import UploadUserImage from "./pages/Support/Profile/UploadUserImage"
+import ViewPersonalInfo from "./pages/Support/Profile/ViewPersonalInfo"
 import "./App.css";
 
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route path="/" element={<DashboardLayout />}>
+      <Route index element={<CustomerSupportDashboard />} />
+      <Route path="ticket_details" element={<SupportTicketDetails />} />
+      <Route path="personal_information" element={<PersonalInformation />} >
+        <Route path="upload_image" element={<UploadUserImage />} />
+      </Route>
+      <Route path="view_personal_info" element={<ViewPersonalInfo />} />
+    </Route>
+  )
+);
+
 function App() {
-  return <h1 className="text-3xl font-bold underline">Hello world!</h1>;
+  return (
+    <Fragment>
+      <RouterProvider router={router} />
+    </Fragment>)
 }
 
 export default App;
