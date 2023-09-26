@@ -19,7 +19,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { FaSortDown } from "react-icons/fa";
+import { FaHamburger } from 'react-icons/fa';
 import { FaGlasses } from "react-icons/fa";
+import { FaSortUp } from 'react-icons/fa';
 
 import ellipse from '../../../assets/images/CustomerSupport/Ellipse.png'
 import profilePic from '../../../assets/images/CustomerSupport/profilepic.png'
@@ -117,7 +119,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 export default function Navbar() {
 
+
   const navigate = useNavigate();
+  const [toggleSortIcon, SetToggleSortIcon] = React.useState(false)
   /*
   
   const [profilePic, setProfilePic] = React.useState('')
@@ -160,13 +164,14 @@ export default function Navbar() {
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
+    SetToggleSortIcon(!toggleSortIcon)
   };
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (page) => {
-    console.log(page)
+    SetToggleSortIcon(!toggleSortIcon)
     if (page == "Settings") {
       navigate("/view_personal_info")
     }
@@ -177,7 +182,6 @@ export default function Navbar() {
 
   };
   const handeDropDownMenu = (page) => {
-    console.log(page)
     if (page == "Settings") {
       navigate("/view_personal_info")
     }
@@ -197,11 +201,12 @@ export default function Navbar() {
 
   }
   const handleCloseUserMenu = (setting) => {
-    alert(setting)
+    // alert(setting)
     if (setting == "Logout") {
       // logout();
       // navigate("/signin")
     }
+    setAnchorElUser(null);
 
   };
 
@@ -224,7 +229,6 @@ export default function Navbar() {
             sx={{
               mr: 2,
               display: { xs: 'flex', },
-              flexGrow: 1,
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
@@ -235,7 +239,7 @@ export default function Navbar() {
             <div style={{ fontWeight: "400", fontSize: "24px", marginLeft: 10 }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, alignSelf: { xs: 'center' }, flexGrow: 1, }}>
             <IconButton
               size="small"
               aria-label="account of current user"
@@ -244,7 +248,10 @@ export default function Navbar() {
               onClick={handleOpenNavMenu}
               color="inherit"
             >
-              <FaSortDown />
+              {
+                !toggleSortIcon ? <FaSortDown /> : <FaSortUp />
+              }
+              {/* <FaHamburger /> */}
             </IconButton>
 
             <Menu
@@ -282,7 +289,7 @@ export default function Navbar() {
                 >
                   <IconButton
                     size="large"
-                    aria-label="show 17 new notifications"
+                    aria-label="go to following page"
                     color="inherit"
                   >
                   </IconButton>
@@ -293,33 +300,34 @@ export default function Navbar() {
             </Menu>
           </Box>
 
-          {/* pages  */}
+          {/* Pages in the navbar CS, Chats Settings etc*/}
 
-          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'none', lg: 'flex' } }}>
+          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }, justifyContent: 'center' }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
-                sx={{ my: 2, color: 'black', display: 'flex', fontWeight: { md: '700', lg: '700' }, fontSize: { md: '12px', lg: '12px' } }}
+                sx={{ fontFamily: 'monospace', mx: { md: 1, lg: 2 }, color: 'black', display: 'flex', fontWeight: { md: '600', lg: '600' }, fontSize: { md: '14px', lg: '14px' }, ":hover": { color: "#FFB600" }, }}
               >
                 {page}
               </Button>
             ))}
           </Box >
 
-          <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 1 }}>
+          {/* <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 1 }}>
             <Search>
               <Search sx={{ flexGrow: 1 }} >
                 <SearchIconWrapper>
                   <SearchIcon />
                 </SearchIconWrapper>
                 <StyledInputBase
+                  sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}
                   placeholder="Search…"
                   inputProps={{ 'aria-label': 'search' }}
                 />
               </Search>
             </Search>
-          </Box>
+          </Box> */}
 
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={4} color="error">
@@ -328,7 +336,7 @@ export default function Navbar() {
           </IconButton>
 
           <Box sx={{ flexGrow: 0, ml: 2, }}>
-            <Tooltip title="Open settings">
+            <Tooltip title="Open Settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src={profilePic} />
                 <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{"Sammi"} {"Gul"}</p></p>
