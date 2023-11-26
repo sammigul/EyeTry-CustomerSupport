@@ -28,3 +28,4 @@ export const logoutAgent = async (token) => {
         throw error;
     }
 }
+
