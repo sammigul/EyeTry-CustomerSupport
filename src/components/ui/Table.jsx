@@ -17,10 +17,11 @@ import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import LastPageIcon from '@mui/icons-material/LastPage';
 import TableHead from '@mui/material/TableHead';
 import { TextField } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from 'react-router-dom';
+
+import { getSupportTickets } from '../../services/SupportTickets/supportTickets';
 
 
 function TablePaginationActions(props) {
@@ -84,39 +85,34 @@ TablePaginationActions.propTypes = {
     rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, dateIssued, ticketType, ticketPriority, status) {
-    return { name, dateIssued, ticketType, ticketPriority, status };
-}
 
-const initialRows = [
-    createData('Abdul Sammi', '2023-09-01', 'Support', 'High', 'Open'),
-    createData('Hassan Raza', '2023-09-02', 'Bug', 'Medium', 'In Progress'),
-    createData('Cakes Johnson', '2023-09-03', 'Feature Request', 'Low', 'Resolved'),
-    createData('Aalliyan Alvi', '2023-09-04', 'Support', 'High', 'Open'),
-    createData('Manes Wilson', '2023-09-05', 'Bug', 'Medium', 'In Progress'),
-    createData('GM Davis', '2023-09-06', 'Feature Request', 'Low', 'Resolved'),
-    createData('Grace Lee', '2023-09-07', 'Support', 'High', 'Open'),
-    // Add more rows here
-].sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-
-    // Compare dates
-    if (dateA < dateB) return -1;
-    if (dateA > dateB) return 1;
-    return 0;
-});
 
 
 export default function CustomPaginationActionsTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const [searchQuery, setSearchQuery] = React.useState('');
-    const [searchAttribute, setSearchAttribute] = React.useState('name');
+    const [searchAttribute, setSearchAttribute] = React.useState('customerName');
+    const [supportTickets, setSupportTickets] = React.useState([]);
+
+    // Function to fetch support ticket data from the server
+    const fetchSupportTickets = async () => {
+        try {
+            const data = await getSupportTickets();
+            setSupportTickets(data);
+        } catch (error) {
+            console.error('Error fetching support tickets:', error);
+        }
+    };
+
+    React.useEffect(() => {
+        fetchSupportTickets();
+    }, []);
+
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - initialRows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - supportTickets.length) : 0;
 
     const filterRows = (rows, attribute, query) => {
         return rows.filter((row) => {
@@ -143,8 +139,8 @@ export default function CustomPaginationActionsTable() {
     };
 
     const filteredRows = searchQuery
-        ? filterRows(initialRows, searchAttribute, searchQuery)
-        : initialRows;
+        ? filterRows(supportTickets, searchAttribute, searchQuery)
+        : supportTickets;
 
     return (
         <div>
@@ -167,10 +163,10 @@ export default function CustomPaginationActionsTable() {
                     onChange={handleAttributeChange}
                     size='small'
                 >
-                    <MenuItem value="name">Name</MenuItem>
+                    <MenuItem value="customerName">Name</MenuItem>
                     <MenuItem value="dateIssued">Date Issued</MenuItem>
-                    <MenuItem value="ticketType">Ticket Type</MenuItem>
-                    <MenuItem value="ticketPriority">Ticket Priority</MenuItem>
+                    <MenuItem value="type">Ticket Type</MenuItem>
+                    <MenuItem value="priority">Ticket Priority</MenuItem>
                     <MenuItem value="status">Status</MenuItem>
 
                 </Select>
@@ -195,15 +191,15 @@ export default function CustomPaginationActionsTable() {
                             )
                             : filteredRows
                         ).map((row) => (
-                            <TableRow key={row.name}>
+                            <TableRow key={row._id}>
                                 <TableCell component="th" scope="row" style={{ width: 160 }} >
-                                    <Link to='/ticket_details'>
-                                        <span className='cursor-pointer'>   {row.name}</span>
+                                    <Link to={`ticket_details/${row._id}`}>
+                                        <span className='cursor-pointer'>   {row.customerName}</span>
                                     </Link>
                                 </TableCell>
-                                <TableCell style={{ width: 160 }}>{row.dateIssued}</TableCell>
-                                <TableCell style={{ width: 160 }}>{row.ticketType}</TableCell>
-                                <TableCell style={{ width: 160 }}>{row.ticketPriority}</TableCell>
+                                <TableCell style={{ width: 160 }}>{(row.dateIssued + '').split("T")[0]}</TableCell>
+                                <TableCell style={{ width: 160 }}>{row.type}</TableCell>
+                                <TableCell style={{ width: 160 }}>{row.priority}</TableCell>
                                 <TableCell style={{ width: 160 }}>{row.status}</TableCell>
                             </TableRow>
                         ))}
