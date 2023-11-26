@@ -40,7 +40,9 @@ export const viewAgentPhoto = async () => {
 
 
 
-export const updateAgentPhoto = async (formData) => {
+export const updateAgentPhoto = async (selectedImage) => {
+    const formData = new FormData();
+    formData.append('image', selectedImage);
     try {
         const response = await authenticatedAxiosInstance.post(`/agent/upload_image_server/`, formData, { headers: { 'Content-Type': 'multipart/form-data' } });
         return response;
@@ -57,4 +59,5 @@ export const deleteAgentPhoto = async () => {
         throw error;
     }
 }
+
 
