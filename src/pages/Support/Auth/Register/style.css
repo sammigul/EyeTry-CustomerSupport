@@ -1,0 +1,9 @@
+h1, p {
+    font-family: Lato;
+  }
+  
+  .triangle1 {
+      border-right: 50% solid transparent;
+      border-bottom: 50% solid #4c4c4c; 
+      position: fixed;
+  }
