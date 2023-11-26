@@ -15,15 +15,37 @@ import UploadUserImage from "./pages/Support/Profile/UploadUserImage"
 import ViewPersonalInfo from "./pages/Support/Profile/ViewPersonalInfo"
 import "./App.css";
 
-const router = createBrowserRouter(
-  createRoutesFromElements(
+import Login from "./pages/Support/Auth/Login";
+import Register from "./pages/Support/Auth/Register";
+
+import PrivateRoutes from "./utils/PrivateRoutes"
+
+const publicRoutes = (
+  <Route>
+    <Route path="login" element={<Login />} />
+    <Route path="register" element={<Register />} />
+  </Route>
+);
+
+const privateRoutes = (
+  <Route element={<PrivateRoutes />}>
     <Route path="/" element={<DashboardLayout />}>
       <Route index element={<CustomerSupportDashboard />} />
-      <Route path="ticket_details" element={<SupportTicketDetails />} />
+      <Route path="ticket_details/:ticketId" element={<SupportTicketDetails />} />
       <Route path="edit_personal_info" element={<PersonalInformation />} />
       <Route path="upload_image" element={<UploadUserImage />} />
       <Route path="view_personal_info" element={<ViewPersonalInfo />} />
     </Route>
+  </Route>
+)
+
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Fragment>
+      {publicRoutes}
+      {privateRoutes}
+    </Fragment>
   )
 );
 
