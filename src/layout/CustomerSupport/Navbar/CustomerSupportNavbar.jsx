@@ -8,66 +8,25 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MailIcon from '@mui/icons-material/Mail';
-import { alpha } from '@mui/material/styles';
-import InputBase from '@mui/material/InputBase';
+
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import Badge from '@mui/material/Badge';
 import Button from '@mui/material/Button';
-import SearchIcon from '@mui/icons-material/Search';
 import Tooltip from '@mui/material/Tooltip';
 import Avatar from '@mui/material/Avatar';
 import { FaSortDown } from "react-icons/fa";
-import { FaHamburger } from 'react-icons/fa';
 import { FaGlasses } from "react-icons/fa";
 import { FaSortUp } from 'react-icons/fa';
 
-import ellipse from '../../../assets/images/CustomerSupport/Ellipse.png'
+
 import profilePic from '../../../assets/images/CustomerSupport/profilepic.png'
+import API_URL from '../../../config/config';
 
-
-// for navbar
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
-}));
-
-const SearchIconWrapper = styled('div')(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
-  },
-}));
-
+import { viewAgentProfile } from '../../../services/Agent/agent';
+import { viewAgentPhoto } from '../../../services/Agent/agent';
+import { logoutAgent } from '../../../services/Auth/authentication';
+import { clearLocalStorage } from '../../../utils/LocalStorage';
 
 
 const pages = ['Support Tickets', 'Chats', 'Settings'];
@@ -122,40 +81,43 @@ export default function Navbar() {
 
   const navigate = useNavigate();
   const [toggleSortIcon, SetToggleSortIcon] = React.useState(false)
-  /*
-  
-  const [profilePic, setProfilePic] = React.useState('')
-  
-  const baseURL = 'http://localhost:3000'
 
-  // getting name from local storage
-  const firstName = localStorage.getItem("firstName")
-  const lastName = localStorage.getItem("lastName")
+  const [profileImage, setProfileImage] = React.useState(null)
+  const [name, setName] = React.useState('')
 
-  // getting profile image
-  React.useEffect(() => {
-
-    const getImage = async () => {
-      try {
-        const img = await viewProfileImage();
-        setProfilePic(baseURL + img.location)
+  const getProfile = async () => {
+    try {
+      const res = await viewAgentProfile();
+      if (res.status === 200) {
+        setName(res.data.firstName + " " + res.data.lastName)
       }
-      catch (e) {
-        if (e.response.status == 403) {
-          console.log('Refreshing Token Failed')
-        }
-        if (e.response.status == 400) {
-          console.log('No Image is present')
-          setProfilePic(null)
-        }
-        // console.error(e) // annoying
+    }
+    catch (e) {
+      console.log(e)
+    }
+  }
+
+  const getImage = async () => {
+    try {
+      const res = await viewAgentPhoto();
+      console.log(res)
+      if (res.status === 200) {
+        setProfileImage(API_URL + res.data.location)
+      }
+    }
+    catch (e) {
+      if (e.response.status == 400) {
+        setProfileImage(null)
         console.log(e)
       }
     }
+  }
 
+  React.useEffect(() => {
+    getProfile();
     getImage();
   }, [])
-*/
+
 
 
   // for navbar
@@ -164,14 +126,16 @@ export default function Navbar() {
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
-    SetToggleSortIcon(!toggleSortIcon)
+    SetToggleSortIcon(true)
   };
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
+
+  // Collapsed Navbar
   const handleCloseNavMenu = (page) => {
-    SetToggleSortIcon(!toggleSortIcon)
+    SetToggleSortIcon(false)
     if (page == "Settings") {
       navigate("/view_personal_info")
     }
@@ -181,12 +145,20 @@ export default function Navbar() {
     setAnchorElNav(null);
 
   };
+
+
   const handeDropDownMenu = (page) => {
+
+    SetToggleSortIcon(false)
     if (page == "Settings") {
       navigate("/view_personal_info")
     }
     else if (page == "Support Tickets") {
       navigate("/")
+    }
+    else (page == "Chats")
+    {
+      alert("Chats")
     }
     setAnchorElNav(null);
 
@@ -196,15 +168,21 @@ export default function Navbar() {
 
 
   const logout = async () => {
-    alert("Logging out")
-    // await logoutUser()
+    try {
+      const res = await logoutAgent();
+      clearLocalStorage()
+      navigate("/login")
+    }
+    catch (e) {
+      console.log("Error while logging out")
+    }
+
+
 
   }
   const handleCloseUserMenu = (setting) => {
-    // alert(setting)
     if (setting == "Logout") {
-      // logout();
-      // navigate("/signin")
+      logout();
     }
     setAnchorElUser(null);
 
@@ -239,6 +217,7 @@ export default function Navbar() {
             <div style={{ fontWeight: "400", fontSize: "24px", marginLeft: 10 }} ><span style={{ fontWeight: "800", fontSize: "24px" }}>EYE</span>TRY</div>
           </Typography>
 
+          {/* Nav Menu Dropdown */}
           <Box sx={{ display: { xs: 'flex', md: 'none' }, alignSelf: { xs: 'center' }, flexGrow: 1, }}>
             <IconButton
               size="small"
@@ -274,7 +253,7 @@ export default function Navbar() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" sx={{ ":hover": { color: "#FFB600" }, }}>{page}</Typography>
                 </MenuItem>,
 
                 <MenuItem>
@@ -285,14 +264,15 @@ export default function Navbar() {
                   </IconButton>
                   <p>Messages</p>
                 </MenuItem>,
-                <MenuItem key={page} onClick={() => handeDropDownMenu(page)}
+                <MenuItem key={page} sx={{ ":hover": { color: "#FFB600" }, }} onClick={() => handeDropDownMenu(page)}
                 >
-                  <IconButton
+                  {/* <IconButton
                     size="large"
                     aria-label="go to following page"
                     color="inherit"
+
                   >
-                  </IconButton>
+                  </IconButton> */}
                   <p>{page}</p>
                 </MenuItem>
 
@@ -314,21 +294,6 @@ export default function Navbar() {
             ))}
           </Box >
 
-          {/* <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexGrow: 1 }}>
-            <Search>
-              <Search sx={{ flexGrow: 1 }} >
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  sx={{ display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' } }}
-                  placeholder="Search…"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Search>
-            </Search>
-          </Box> */}
-
           <IconButton size="large" aria-label="show 4 new mails" color="inherit">
             <Badge badgeContent={4} color="error">
               <MailIcon />
@@ -338,9 +303,12 @@ export default function Navbar() {
           <Box sx={{ flexGrow: 0, ml: 2, }}>
             <Tooltip title="Open Settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src={profilePic} />
-                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{"Sammi"} {"Gul"}</p></p>
-                <image alt="user-profile-pic" src={ellipse} width={50} height={50} />
+
+                {
+                  profileImage ? (<Avatar alt="Remy Sharp" src={profileImage} />) : (<Avatar alt="Remy Sharp" src={profilePic} />)
+                }
+                <p className='text-sm ml-2 whitespace-nowrap'>Hi, Welcome<p className='font-black'>{name}</p></p>
+
               </IconButton>
             </Tooltip>
             <Menu
