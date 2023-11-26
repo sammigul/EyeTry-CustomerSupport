@@ -3,11 +3,32 @@ import { Link } from "react-router-dom";
 import { BiEdit } from "react-icons/bi";
 import { FaRegEnvelope, FaUser, } from "react-icons/fa";
 
-const ViewPersonalInfo = () => {
+import { viewAgentProfile } from '../../../services/Agent/agent';
 
+const ViewPersonalInfo = () => {
     const [firstName, setFirstName] = React.useState('')
     const [lastName, setLastName] = React.useState('')
     const [email, setEmail] = React.useState('')
+
+    const getProfile = async () => {
+        try {
+            const res = await viewAgentProfile();
+            if (res.status === 200) {
+                setFirstName(res.data.firstName)
+                setLastName(res.data.lastName)
+                setEmail(res.data.email)
+            }
+        }
+        catch (e) {
+            console.log(e)
+        }
+    }
+
+    React.useEffect(() => {
+        getProfile();
+    }, [])
+
+
 
     return (
         <div className="flex items-center justify-center h-screen">
@@ -35,9 +56,9 @@ const ViewPersonalInfo = () => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input disabled value={firstName} onChange={(e) => setFirstName(e.target.value)} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                <input disabled value={firstName} id='first Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
         focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-        sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your First Name" type="text" />
+        sm:text-sm transition duration-150 ease-in-out"  type="text" />
                             </div>
                         </div>
                         <div className="flex-grow">
@@ -46,9 +67,9 @@ const ViewPersonalInfo = () => {
                                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                     <FaUser color='grey' />
                                 </div>
-                                <input disabled value={lastName} onChange={(e) => setLastName(e.target.value)} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
+                                <input disabled value={lastName} id='last Name' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
         focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-        sm:text-sm transition duration-150 ease-in-out" placeholder="Enter Your Last Name" type="text" />
+        sm:text-sm transition duration-150 ease-in-out"  type="text" />
                             </div>
                         </div>
                     </div>
@@ -61,7 +82,7 @@ const ViewPersonalInfo = () => {
                         </div>
                         <input disabled value={email} onChange={(e) => setEmail(e.target.value)} id='email' className="block w-full pl-10 pr-3 borderblock px-4 py-2.5 mt-2  bg-white border rounded-md
                     focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40 
-                    sm:text-sm transition duration-150 ease-in-out" placeholder="info@yourmai.com" type="email" />
+                    sm:text-sm transition duration-150 ease-in-out"  type="email" />
                     </div>
                 </div>
             </div>

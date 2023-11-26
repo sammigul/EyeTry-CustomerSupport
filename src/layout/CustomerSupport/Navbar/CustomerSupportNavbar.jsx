@@ -158,7 +158,7 @@ export default function Navbar() {
     }
     else (page == "Chats")
     {
-      alert("Chats")
+
     }
     setAnchorElNav(null);
 
@@ -183,6 +183,9 @@ export default function Navbar() {
   const handleCloseUserMenu = (setting) => {
     if (setting == "Logout") {
       logout();
+    }
+    else if(setting == "Profile"){
+      navigate("/view_personal_info")
     }
     setAnchorElUser(null);
 
