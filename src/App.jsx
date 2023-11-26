@@ -13,10 +13,13 @@ import SupportTicketDetails from "./pages/Support/SupportTickets/SupportTicketDe
 import PersonalInformation from "./pages/Support/Profile/PersonalInformation"
 import UploadUserImage from "./pages/Support/Profile/UploadUserImage"
 import ViewPersonalInfo from "./pages/Support/Profile/ViewPersonalInfo"
+// import DeleteAccount from "./pages/Support/Profile/DeleteAccount";
 import "./App.css";
 
 import Login from "./pages/Support/Auth/Login";
 import Register from "./pages/Support/Auth/Register";
+
+import ChangePassword from "./pages/Support/Profile/ChangePassword";
 
 import PrivateRoutes from "./utils/PrivateRoutes"
 
@@ -35,6 +38,8 @@ const privateRoutes = (
       <Route path="edit_personal_info" element={<PersonalInformation />} />
       <Route path="upload_image" element={<UploadUserImage />} />
       <Route path="view_personal_info" element={<ViewPersonalInfo />} />
+      <Route path="change_password" element={<ChangePassword />} />
+      {/* <Route path="delete_account" element={<DeleteAccount />} /> */}
     </Route>
   </Route>
 )
