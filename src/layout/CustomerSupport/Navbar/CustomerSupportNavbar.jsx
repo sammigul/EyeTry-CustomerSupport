@@ -267,9 +267,7 @@ const getImage = async () => {
 
                 <MenuItem>
                   <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
                       <MailIcon />
-                    </Badge>
                   </IconButton>
                   <p>Messages</p>
                 </MenuItem>,
@@ -303,8 +301,8 @@ const getImage = async () => {
             ))}
           </Box >
 
-          <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="error">
+          <IconButton size="large" aria-label="show 4 new mails" color="inherit" onClick={()=>navigate('/chat')}>
+            <Badge  color="error">
               <MailIcon />
             </Badge>
           </IconButton>
