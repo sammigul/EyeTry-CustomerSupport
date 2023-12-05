@@ -24,15 +24,36 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const [errorVisible, setErrorVisible] = React.useState(false)
+    const [errorMsg, setErrorMsg] = React.useState('')
+
+
     const navigate = useNavigate();
 
     const redirectDashboard = () => {
         navigate("/");
     };
 
+    const validateForm = () => {
+        // Validating user input
+        if (!email || !password) {
+            setErrorVisible(true)
+            setErrorMsg('Please fill out all fields');
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setErrorVisible(true)
+            setErrorMsg('Please enter a valid email address.');
+            return false;
+        }
+        return true
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
 
         const data = { email, password };
 
@@ -50,6 +71,8 @@ const Login = () => {
             }
         } catch (error) {
             console.error("Error:", error);
+            setErrorVisible(true)
+            setErrorMsg(error.response.data.message)
         }
     };
 
@@ -60,9 +83,13 @@ const Login = () => {
 
     return (
         < ThemeProvider theme={responsiveFontSizes(theme)} >
-            <div className="min-h-screen flex items-center justify-center bg-gray-100">
-
+            <div className="min-h-screen flex items-center justify-center bg-gray-100" >
                 <Box textAlign="center" style={{ width: "20rem" }}>
+                    {
+                        errorVisible && (<Box pl={2} pr={2} >
+                            <Typography fullWidth style={{color: 'red', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4%' }}>{errorMsg}</Typography>
+                        </Box>)
+                    }
                     <Box pl={2} pr={2} >
                         <TextField fullWidth label="Email" variant="outlined" value={email} onChange={(e) => setEmail(e.target.value)} />
                     </Box>

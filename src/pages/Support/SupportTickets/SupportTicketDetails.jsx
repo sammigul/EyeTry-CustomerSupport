@@ -2,20 +2,25 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-
-import { useParams } from 'react-router-dom';
+import { getDataFromLocalStorage } from "../../../utils/LocalStorage";
+import { useParams,useNavigate } from 'react-router-dom';
 
 import { getSupportTicketById } from "../../../services/SupportTickets/supportTickets";
 import { updateSupportTicket } from "../../../services/SupportTickets/supportTickets";
+import { createChat } from "../../../services/Chat/chat";
 
 export default function SupportTicketDetails() {
     const { ticketId } = useParams();
 
     const [ticketStatus, setTicketStatus] = React.useState('');
+
+    const userId = getDataFromLocalStorage('agentId')
+
     const handleAttributeChange = (event) => {
         setTicketStatus(event.target.value);
     };
 
+    const navigate = useNavigate();
     const [supportTicket, setSupportTicket] = React.useState({
         customerName: '',
         dateIssued: '',
@@ -67,7 +72,27 @@ export default function SupportTicketDetails() {
         )
     }
 
+    const handleLiveChat =async () =>{
+        try{
+            const customerId = supportTicket.customerId;
+            const data = {
+                "senderId": userId, 
+                "receiverId": customerId
+            }
+            const res = await createChat(data)
+            if (res.status === 200){
+                alert("Chat Create Successfully")
+                navigate('/chat')
+            }
+        }
+        catch(e){
+            if(e.response.status === 400 && e.response.data.message === "Chat already exists"){
+                alert("Chat already exists")
+                navigate('/chat')
+            }
+        }
 
+    }
 
     return (
         <div className="flex flex-col h-screen">
@@ -125,7 +150,7 @@ export default function SupportTicketDetails() {
                 </div>
 
                 <div className="md:ml-auto md:text-right text-center mb-10">
-                    <button type="button" className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
+                    <button type="button" onClick={handleLiveChat} className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4
                              focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700
                               dark:focus:ring-red-900">Live Chat</button>
                     <Link >

@@ -27,15 +27,48 @@ const Register = () => {
     const [password, setPassword] = useState("");
     const [confirmpassword, setConfirmpassword] = useState("");
 
+    const [errorVisible, setErrorVisible] = React.useState(false)
+    const [errorMsg, setErrorMsg] = React.useState('')
+
     const navigate = useNavigate();
 
     const redirectDashboard = () => {
         navigate("/");
     };
 
+    
+    const validateForm = () => {
+        // Validating user input
+        if (!firstname || !lastname || !email || !password || !confirmpassword) {
+            setErrorVisible(true)
+            setErrorMsg('Please fill out all fields');
+            return false;
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setErrorVisible(true)
+            setErrorMsg('Please enter a valid email address.');
+            return false;
+        }
+        if (password !== confirmpassword) {
+            setErrorVisible(true)
+            setErrorMsg('Passwords do not match');
+            return false;
+        }
+        if (password.length < 6) {
+            setErrorVisible(true)
+            setErrorMsg('Password must be at least 6 characters long.');
+            return false;
+        }
+        return true
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return
+        }
 
         const data = { firstname, lastname, email, password, confirmpassword };
 
@@ -51,6 +84,8 @@ const Register = () => {
             }
         } catch (error) {
             console.error("Error:", error);
+            setErrorVisible(true)
+            setErrorMsg(error.response.data.message)
         }
     };
 
@@ -64,6 +99,11 @@ const Register = () => {
         < ThemeProvider theme={responsiveFontSizes(theme)} >
             <div className="min-h-screen flex items-center justify-center  bg-gradient-to-br from-white to-skin border-2 ">
                 <Box textAlign="center" p={2} style={{ width: "22rem", }}>
+                {
+                        errorVisible && (<Box pl={2} pr={2} >
+                            <Typography fullWidth style={{color: 'red', fontSize: 16, alignSelf: 'flex-start', paddingBottom: '4%' }}>{errorMsg}</Typography>
+                        </Box>)
+                    }
                     <Box p={1} >
                         <TextField fullWidth label="First Name" variant="outlined" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                     </Box>

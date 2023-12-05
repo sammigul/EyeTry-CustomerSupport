@@ -97,7 +97,7 @@ export default function Navbar() {
     }
   }
 
-  const getImage = async () => {
+const getImage = async () => {
     try {
       const res = await viewAgentPhoto();
       console.log(res)
@@ -142,6 +142,10 @@ export default function Navbar() {
     else if (page == "Support Tickets") {
       navigate("/")
     }
+    else if (page == "Chats")
+    {
+      navigate("/chat")
+    }
     setAnchorElNav(null);
 
   };
@@ -156,9 +160,12 @@ export default function Navbar() {
     else if (page == "Support Tickets") {
       navigate("/")
     }
-    else (page == "Chats")
+    else if(page == "Chats")
     {
-
+      navigate("/chat")
+    }
+    else{
+      
     }
     setAnchorElNav(null);
 
@@ -233,7 +240,6 @@ export default function Navbar() {
               {
                 !toggleSortIcon ? <FaSortDown /> : <FaSortUp />
               }
-              {/* <FaHamburger /> */}
             </IconButton>
 
             <Menu
@@ -285,7 +291,7 @@ export default function Navbar() {
 
           {/* Pages in the navbar CS, Chats Settings etc*/}
 
-          <Box sx={{ ml: 5, flexGrow: 1, display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }, justifyContent: 'center' }}>
+          <Box sx={{ ml: 5 ,flexGrow: 1 ,display: { xs: 'none', sm: 'none', md: 'flex', lg: 'flex' }, justifyContent: 'center' }}>
             {pages.map((page) => (
               <Button
                 key={page}

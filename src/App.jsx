@@ -20,6 +20,11 @@ import Login from "./pages/Support/Auth/Login";
 import Register from "./pages/Support/Auth/Register";
 
 import ChangePassword from "./pages/Support/Profile/ChangePassword";
+import Chat from "./pages/Support/Chat";
+
+// Creating Chat
+import CreateSupportTicket from "./pages/Support/SupportTickets/CreateSupportTicket"; 
+
 
 import PrivateRoutes from "./utils/PrivateRoutes"
 
@@ -39,10 +44,16 @@ const privateRoutes = (
       <Route path="upload_image" element={<UploadUserImage />} />
       <Route path="view_personal_info" element={<ViewPersonalInfo />} />
       <Route path="change_password" element={<ChangePassword />} />
+      <Route path="chat" element={<Chat />} />
+
+
+      <Route path="/createTicket" element={<CreateSupportTicket />} />
       {/* <Route path="delete_account" element={<DeleteAccount />} /> */}
     </Route>
   </Route>
 )
+
+
 
 
 const router = createBrowserRouter(

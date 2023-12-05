@@ -146,6 +146,7 @@ export default function CustomPaginationActionsTable() {
         <div>
             <div className='space-x-4 mb-5'>
                 {/* Search input field */}
+                {console.log("Filtered ROws",filteredRows)}
                 <TextField
                     type="text"
                     placeholder="Search..."
@@ -192,9 +193,9 @@ export default function CustomPaginationActionsTable() {
                             : filteredRows
                         ).map((row) => (
                             <TableRow key={row._id}>
-                                <TableCell component="th" scope="row" style={{ width: 160 }} >
+                                <TableCell component="th" className='hover:scale-105 transform transition-transform duration-300 ease-in-out' scope="row" style={{ width: 160 }} >
                                     <Link to={`ticket_details/${row._id}`}>
-                                        <span className='cursor-pointer'>   {row.customerName}</span>
+                                        <span className=' cursor-pointer hover:text-blue-800 underline' >    {row.customerName}</span>
                                     </Link>
                                 </TableCell>
                                 <TableCell style={{ width: 160 }}>{(row.dateIssued + '').split("T")[0]}</TableCell>
